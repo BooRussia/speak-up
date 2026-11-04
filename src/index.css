@@ -881,3 +881,31 @@ th button {
 .empty .note { margin: 0; }
 .sheet .text-btn { min-width: 44px; }
 .composer input:focus, .composer input:focus-visible { outline: none; }
+
+/* ---- Desi polish, Nov 4 2026 ---- */
+.hero { margin-top: 40px; }
+.more-link { align-self: center; color: var(--muted); font-size: 15px; padding: 0 8px; text-decoration: none; }
+.dock .fine { padding: 4px 20px 4px; }
+.steps-btn { display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; text-align: left; text-decoration: none; color: var(--accent); }
+.action { align-items: flex-start; }
+.chev { transition: transform 150ms ease; }
+.chev.up { transform: rotate(180deg); }
+.sources { gap: 12px; }
+.sources a { min-height: 44px; }
+.composer { border: 1px solid transparent; }
+.composer:focus-within { outline: none; border-color: var(--accent); }
+.one-line { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin: 0; }
+.inline-link { display: inline-flex; align-items: center; min-height: 44px; text-decoration: underline; text-underline-offset: 3px; color: var(--accent); }
+:root[data-theme="light"] .inline-link { color: #1f5fb8; }
+.crumb, .map-bar .crumb { flex-wrap: nowrap; gap: 8px; font-size: 15px; }
+.crumb button, .map-bar .crumb button { padding: 0; min-width: 44px; font-size: 15px; color: var(--muted); }
+.map-bar .crumb span { color: var(--muted); }
+.map-bar .crumb [aria-current="page"] { color: var(--text); font-weight: 600; }
+.seg.fade-x { -webkit-mask-image: linear-gradient(to right, transparent 0, #000 16px, #000 calc(100% - 32px), transparent 100%); mask-image: linear-gradient(to right, transparent 0, #000 16px, #000 calc(100% - 32px), transparent 100%); }
+/* map: svg sized to its content, peek directly underneath */
+.map-wrap { display: flex; flex-direction: column; overflow: hidden; background: var(--bg); }
+.map-wrap svg { flex: 0 0 auto; height: auto; }
+.peek { position: static; flex: 1 1 auto; min-height: 76px; max-height: none; border-radius: 0; background: var(--bg); color: var(--text); border-top: 1px solid var(--line); }
+.peek-head, .sheet-actions button { color: var(--text); }
+.peek-sum, .peek .muted { color: var(--muted); }
+.peek-sum, .peek p, .legend { font-variant-numeric: tabular-nums; }

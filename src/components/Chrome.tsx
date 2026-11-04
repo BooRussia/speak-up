@@ -1,7 +1,8 @@
 import { useEffect, useRef, type ReactNode } from "react"
 import type { Route } from "../lib/route.ts"
 import { go } from "../lib/route.ts"
-import { IconGear, IconLearn, IconMap, IconPin } from "./Icons.tsx"
+import { BookOpen, Map as MapIcon, MapPin, Settings } from "lucide-react"
+const ICON = { size: 22, strokeWidth: 1.75, "aria-hidden": true } as const
 
 export function Nav({ route, onSettings }: { route: Route; onSettings: () => void }) {
   return (
@@ -31,19 +32,19 @@ export function Tabs({ route, onSettings }: { route: Route; onSettings: () => vo
   return (
     <nav className="tabs" aria-label="Primary">
       <a href="#/learn" aria-current={route.name === "learn" ? "page" : undefined}>
-        <IconLearn />
+        <BookOpen {...ICON} />
         <span>Learn</span>
       </a>
       <a href="#/area" aria-current={route.name === "area" ? "page" : undefined}>
-        <IconPin />
+        <MapPin {...ICON} />
         <span>Area</span>
       </a>
       <a href="#/map" aria-current={route.name === "map" ? "page" : undefined}>
-        <IconMap />
+        <MapIcon {...ICON} />
         <span>Map</span>
       </a>
       <button type="button" onClick={onSettings}>
-        <IconGear />
+        <Settings {...ICON} />
         <span>Settings</span>
       </button>
     </nav>

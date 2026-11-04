@@ -141,16 +141,10 @@ export function AreaView() {
               />
             ))}
             {CONGRESS.unlistedSenate.includes(state.abbr) && (
-              <>
-                <p className="note">
-                  Every state has two U.S. senators, but our list only shows one for {state.name} right now. The other seat
-                  is changing hands (for example after an appointment or special election), so our data file has no current
-                  entry for it.
-                </p>
-                <p className="link-row">
-                  <a href="https://www.senate.gov/senators/senators-contact.htm">Check senate.gov for both senators</a>
-                </p>
-              </>
+              <p className="note one-line">
+                Second {state.abbr} seat updating.{" "}
+                <a className="inline-link" href="https://www.senate.gov/senators/senators-contact.htm">Check senate.gov</a>
+              </p>
             )}
             {reps.length > 1 && (
               <label className="district">

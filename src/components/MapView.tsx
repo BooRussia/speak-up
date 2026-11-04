@@ -11,7 +11,7 @@ import resultsFile from "../data/generated/results.json"
 import { byAbbr, byFips } from "../data/states.ts"
 import { bandLabel, partyWord, pct, points, votes } from "../lib/format.ts"
 import { go, mapHash } from "../lib/route.ts"
-import { colorblind, setColorblind, subscribe } from "../lib/storage.ts"
+import { colorblind, resolvedTheme, setColorblind, subscribe } from "../lib/storage.ts"
 
 type Side = "D" | "R" | "O" | "T"
 type Unit = {
@@ -46,8 +46,30 @@ type Results = {
 }
 
 const RESULTS = resultsFile as Results
-const LAND = "#0B0B10"
-const STEPS = ["#121A28", "#1F3758", "#2C5488", "#3972B7", "#468FE7"]
+const DARK = {
+  land: "#0B0B10",
+  other: "#1A1A20",
+  stroke: "rgba(240,240,250,0.25)",
+  otherStroke: "rgba(240,240,250,0.08)",
+  countyStroke: "rgba(240,240,250,0.12)",
+  selected: "#F0F0FA",
+  water: "#000000",
+  label: "#b7b7c2",
+  steps: ["#121A28", "#1F3758", "#2C5488", "#3972B7", "#468FE7"],
+}
+const LIGHT = {
+  land: "#F2F2F5",
+  other: "#F2F2F5",
+  stroke: "rgba(0,0,0,0.15)",
+  otherStroke: "rgba(0,0,0,0.15)",
+  countyStroke: "rgba(0,0,0,0.15)",
+  selected: "#000000",
+  water: "#FFFFFF",
+  label: "#4a4a55",
+  steps: ["#BCD3F2", "#86B1EA", "#4D8DDB", "#2B67B3", "#174580"],
+}
+let LAND = DARK.land
+let STEPS = DARK.steps
 const PARTY: Record<Side, string> = { D: "#5B7FBF", R: "#BF5B5B", O: "#8A8A93", T: "#8A8A93" }
 
 const statesRaw = statesTopo as unknown as { objects: { states: Parameters<typeof feature>[1] } }
@@ -62,7 +84,6 @@ function loadCounties() {
     return countyCache
   })
 }
-const OTHER_STATE = "#1A1A20"
 
 type Mode = "votes" | "president" | "senate" | "governor" | "house"
 const MODES: { id: Mode; label: string }[] = [
@@ -100,7 +121,7 @@ export default function MapView({ stateCode, countyName }: { stateCode: string |
   const [size, setSize] = useState({ w: 0, h: 0 })
   const [mode, setMode] = useState<Mode>("votes")
   const [table, setTable] = useState(false)
-  const [open, setOpen] = useState(Boolean(countyName))
+  const [open, setOpen] = useState(true)
   const [trackedCounty, setTrackedCounty] = useState(countyName)
   if (countyName !== trackedCounty) {
     setTrackedCounty(countyName)
@@ -109,6 +130,10 @@ export default function MapView({ stateCode, countyName }: { stateCode: string |
   const [query, setQuery] = useState("")
   const [sort, setSort] = useState<{ key: string; dir: 1 | -1 }>({ key: "name", dir: 1 })
   const patterns = usePatterns()
+  const themeName = useSyncExternalStore(subscribe, () => resolvedTheme(), () => "dark" as const)
+  const C = themeName === "light" ? LIGHT : DARK
+  LAND = C.land
+  STEPS = C.steps
   const stateInfo = stateCode ? byAbbr(stateCode) : null
   const [countyFeatures, setCountyFeatures] = useState<Feature[] | null>(countyCache)
   const [countyError, setCountyError] = useState(false)
@@ -136,20 +161,33 @@ export default function MapView({ stateCode, countyName }: { stateCode: string |
     return () => observer.disconnect()
   }, [])
 
+  const fitTarget = useMemo(() => {
+    const act = stateInfo ? stateFeatures.find((item) => String(item.id) === stateInfo.fips) : null
+    return (act ?? { type: "FeatureCollection", features: stateFeatures }) as GeoPermissibleObjects
+  }, [stateInfo])
   const projection = useMemo(() => {
     if (size.w < 20 || size.h < 20) return null
     const proj = geoAlbersUsa()
+    const maxH = Math.max(160, size.h - 76)
     proj.fitExtent(
       [
-        [4, 8],
-        [size.w - 4, size.h - 72],
+        [16, 16],
+        [size.w - 16, maxH - 16],
       ],
-      { type: "FeatureCollection", features: stateFeatures } as FeatureCollection,
+      fitTarget as never,
     )
+    const top = geoPath(proj).bounds(fitTarget)[0][1]
+    const [tx, ty] = proj.translate()
+    proj.translate([tx, ty - (top - 16)])
     return proj
-  }, [size])
+  }, [size, fitTarget])
 
   const path = useMemo(() => (projection ? geoPath(projection) : null), [projection])
+  const drawnH = useMemo(() => {
+    if (!path) return 0
+    const b = path.bounds(fitTarget)
+    return Math.min(size.h, Math.ceil(b[1][1] + 16))
+  }, [path, fitTarget, size.h])
   const stateLabels = useMemo(() => {
     if (!path || stateInfo) return [] as { abbr: string; x: number; y: number }[]
     const candidates = stateFeatures.flatMap((item) => {
@@ -177,7 +215,6 @@ export default function MapView({ stateCode, countyName }: { stateCode: string |
     }
     return shown
   }, [path, stateInfo])
-  const active = stateFeatures.find((item) => String(item.id) === stateInfo?.fips)
 
   useEffect(() => {
     const svg = svgRef.current
@@ -192,24 +229,13 @@ export default function MapView({ stateCode, countyName }: { stateCode: string |
       })
     const selection = select(svg)
     selection.call(behavior)
-    let next = zoomIdentity
-    if (active) {
-      const bounds = path.bounds(active as GeoPermissibleObjects)
-      const [[x0, y0], [x1, y1]] = bounds
-      const dx = x1 - x0
-      const dy = y1 - y0
-      if (dx > 1 && dy > 1) {
-        const viewH = Math.max(120, size.h - 72 - 8)
-        const k = Math.max(1, Math.min(12, 0.9 / Math.max(dx / (size.w - 8), dy / viewH)))
-        next = zoomIdentity.translate(size.w / 2 - (k * (x0 + x1)) / 2, 8 + viewH / 2 - (k * (y0 + y1)) / 2).scale(k)
-      }
-    }
+    const next = zoomIdentity
     selection.transition().duration(reduced ? 0 : 400).call(behavior.transform, next)
     return () => {
       selection.on(".zoom", null)
       selection.interrupt()
     }
-  }, [path, active, size.w, size.h])
+  }, [path, size.w, size.h])
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
@@ -373,10 +399,10 @@ export default function MapView({ stateCode, countyName }: { stateCode: string |
             <div className="crumb">
               {stateInfo ? (
                 <button type="button" onClick={() => go("#/map")}>
-                  &lt; US
+                  ‹ US
                 </button>
               ) : (
-                <span>US</span>
+                <span aria-current="page">US</span>
               )}
               {stateInfo && (
                 <>
@@ -386,14 +412,14 @@ export default function MapView({ stateCode, countyName }: { stateCode: string |
                       {stateInfo.name}
                     </button>
                   ) : (
-                    <span>{stateInfo.name}</span>
+                    <span aria-current="page">{stateInfo.name}</span>
                   )}
                 </>
               )}
               {selectedCounty && (
                 <>
                   <span>›</span>
-                  <span>{selectedCounty.properties?.name}</span>
+                  <span aria-current="page">{selectedCounty.properties?.name}</span>
                 </>
               )}
             </div>
@@ -432,9 +458,9 @@ export default function MapView({ stateCode, countyName }: { stateCode: string |
               </div>
             )}
           </div>
-        <div className="map-wrap" ref={wrapRef}>
+        <div className="map-wrap" ref={wrapRef} data-map-theme={themeName}>
           {size.w > 0 && path && (
-            <svg ref={svgRef} role="img" aria-label="United States map. Use the table for the same numbers.">
+            <svg ref={svgRef} style={{ height: drawnH, background: C.water }} role="img" aria-label="United States map. Use the table for the same numbers.">
               <defs>
                 {STEPS.map((color, index) => (
                   <pattern key={color} id={`step-${index}`} width="8" height="8" patternUnits="userSpaceOnUse">
@@ -469,8 +495,8 @@ export default function MapView({ stateCode, countyName }: { stateCode: string |
                     <path
                       key={info.abbr}
                       d={d}
-                      fill={stateInfo && info.abbr !== stateInfo.abbr ? OTHER_STATE : paint(info.abbr)}
-                      stroke={stateInfo && info.abbr !== stateInfo.abbr ? "rgba(240,240,250,0.08)" : "rgba(240,240,250,0.25)"}
+                      fill={stateInfo && info.abbr !== stateInfo.abbr ? C.other : paint(info.abbr)}
+                      stroke={stateInfo && info.abbr !== stateInfo.abbr ? C.otherStroke : C.stroke}
                       strokeWidth={1}
                       vectorEffect="non-scaling-stroke"
                       onClick={() => {
@@ -492,7 +518,7 @@ export default function MapView({ stateCode, countyName }: { stateCode: string |
                         key={String(item.id)}
                         d={d}
                         fill={paint(stateInfo.abbr, String(item.id))}
-                        stroke={selected ? "#F0F0FA" : "rgba(240,240,250,0.12)"}
+                        stroke={selected ? C.selected : C.countyStroke}
                         strokeWidth={selected ? 2 : 0.5}
                         vectorEffect="non-scaling-stroke"
                         onClick={() => {
@@ -504,7 +530,7 @@ export default function MapView({ stateCode, countyName }: { stateCode: string |
                   })}
                 {!stateInfo &&
                   stateLabels.map((item) => (
-                    <text key={item.abbr} x={item.x} y={item.y} textAnchor="middle" fill="#b7b7c2" fontSize="11" pointerEvents="none">
+                    <text key={item.abbr} x={item.x} y={item.y} textAnchor="middle" fill={C.label} fontSize="11" pointerEvents="none">
                       {item.abbr}
                     </text>
                   ))}

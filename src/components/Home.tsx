@@ -7,6 +7,7 @@ import { affiliation, setAffiliation, subscribe, type Affiliation } from "../lib
 import type { Route } from "../lib/route.ts"
 import { FinePrint, Tabs } from "./Chrome.tsx"
 import { IconArrow } from "./Icons.tsx"
+import { ChevronDown } from "lucide-react"
 
 type Turn =
   | { role: "user"; text: string }
@@ -55,7 +56,7 @@ export function Home({
   const followups =
     lastAnswer && lastAnswer.role === "answer" ? ANSWER_MAP.get(lastAnswer.id)?.related ?? PRIMARY_IDS : null
   const base = CHIP_ORDER[party ?? "skip"] ?? PRIMARY_IDS
-  const chips = followups ?? (more ? [...base, ...MORE_IDS] : base)
+  const chips = followups ?? (more ? [...base, ...MORE_IDS] : base.slice(0, 3))
 
   function ask(value: string) {
     const trimmed = value.trim()
@@ -124,13 +125,12 @@ export function Home({
               ),
             )}
             {!followups && (
-              <button className="chip" type="button" onClick={() => setMore((value) => !value)}>
+              <button className="text-btn more-link" type="button" onClick={() => setMore((value) => !value)}>
                 {more ? "Fewer questions" : "More questions"}
               </button>
             )}
           </div>
         )}
-        {turns.length === 0 && <FinePrint />}
         <div className="thread" aria-live="polite" ref={threadRef}>
           {turns.map((turn, index) => {
             if (turn.role === "user") {
@@ -156,11 +156,12 @@ export function Home({
                         <p className="meta">{action.time}</p>
                         <p className="why">Why: {action.why}</p>
                         <button
-                          className="text-btn"
+                          className="text-btn steps-btn"
                           type="button"
                           aria-expanded={open === key}
                           onClick={() => setOpen(open === key ? null : key)}
                         >
+                          <ChevronDown size={18} strokeWidth={1.75} aria-hidden="true" className={open === key ? "chev up" : "chev"} />
                           {open === key ? "Hide steps" : "Show steps"}
                         </button>
                         {open === key && (
@@ -247,6 +248,7 @@ export function Home({
             )}
           </div>
           )}
+          <FinePrint />
           <form
             className="composer-wrap"
             onSubmit={(event) => {
