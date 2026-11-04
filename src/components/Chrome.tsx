@@ -1,10 +1,13 @@
 import { useEffect, useRef, type ReactNode } from "react"
 import type { Route } from "../lib/route.ts"
-import { go } from "../lib/route.ts"
+import { go, mapHash } from "../lib/route.ts"
+import { useSyncExternalStore } from "react"
+import { scopeState, subscribe } from "../lib/storage.ts"
 import { BookOpen, Map as MapIcon, MapPin, Settings } from "lucide-react"
 const ICON = { size: 22, strokeWidth: 1.75, "aria-hidden": true } as const
 
 export function Nav({ route, onSettings }: { route: Route; onSettings: () => void }) {
+  const scope = useSyncExternalStore(subscribe, scopeState, () => null)
   return (
     <header className="nav">
       <button className="brand" onClick={() => go("#/")}>
@@ -17,7 +20,7 @@ export function Nav({ route, onSettings }: { route: Route; onSettings: () => voi
         <a href="#/area" aria-current={route.name === "area" ? "page" : undefined}>
           Area
         </a>
-        <a href="#/map" aria-current={route.name === "map" ? "page" : undefined}>
+        <a href={mapHash(scope)} aria-current={route.name === "map" ? "page" : undefined}>
           Map
         </a>
         <button type="button" onClick={onSettings}>
@@ -29,6 +32,7 @@ export function Nav({ route, onSettings }: { route: Route; onSettings: () => voi
 }
 
 export function Tabs({ route, onSettings }: { route: Route; onSettings: () => void }) {
+  const scope = useSyncExternalStore(subscribe, scopeState, () => null)
   return (
     <nav className="tabs" aria-label="Primary">
       <a href="#/learn" aria-current={route.name === "learn" ? "page" : undefined}>
@@ -39,7 +43,7 @@ export function Tabs({ route, onSettings }: { route: Route; onSettings: () => vo
         <MapPin {...ICON} />
         <span>Area</span>
       </a>
-      <a href="#/map" aria-current={route.name === "map" ? "page" : undefined}>
+      <a href={mapHash(scope)} aria-current={route.name === "map" ? "page" : undefined}>
         <MapIcon {...ICON} />
         <span>Map</span>
       </a>

@@ -106,6 +106,7 @@ export function setColorblind(value: boolean) {
 export function clearPersonalInfo() {
   localStorage.removeItem(AFFILIATION)
   localStorage.removeItem(PLACE)
+  localStorage.removeItem("speakup.state")
   emit()
 }
 
@@ -120,4 +121,36 @@ export function subscribe(callback: () => void) {
     window.removeEventListener("storage", callback)
     media.removeEventListener("change", onMedia)
   }
+}
+
+const SCOPE = "speakup.state"
+const TIP = "speakup.stateTipSeen"
+
+/** State picked in the home search pill; null means All states. */
+export function scopeState(): string | null {
+  const value = read(SCOPE)
+  return value && /^[A-Z]{2}$/.test(value) ? value : null
+}
+
+export function setScopeState(value: string | null) {
+  try {
+    if (value) localStorage.setItem(SCOPE, value)
+    else localStorage.removeItem(SCOPE)
+  } catch {
+    /* storage blocked */
+  }
+  emit()
+}
+
+export function stateTipSeen(): boolean {
+  return read(TIP) === "1"
+}
+
+export function markStateTipSeen() {
+  try {
+    localStorage.setItem(TIP, "1")
+  } catch {
+    /* storage blocked */
+  }
+  emit()
 }

@@ -5,7 +5,7 @@ import { byAbbr } from "../data/states.ts"
 import { formatPhone, initials, telHref } from "../lib/format.ts"
 import { stateFromLonLat } from "../lib/geo.ts"
 import { parsePlace } from "../lib/place.ts"
-import { place, setPlace, subscribe } from "../lib/storage.ts"
+import { place, scopeState, setPlace, subscribe } from "../lib/storage.ts"
 import { FinePrint } from "./Chrome.tsx"
 import { IconMail, IconPhone } from "./Icons.tsx"
 
@@ -14,7 +14,14 @@ function usePlace() {
 }
 
 export function AreaView() {
-  const saved = usePlace()
+  const typed = usePlace()
+  const scope = useSyncExternalStore(subscribe, scopeState, () => null)
+  const saved =
+    typed && (!scope || typed.state === scope)
+      ? typed
+      : scope
+        ? { query: "", city: null, state: scope, zip: null, source: "typed" as const }
+        : typed
   const [query, setQuery] = useState(saved?.query ?? "")
   const [message, setMessage] = useState("")
   const [locating, setLocating] = useState(false)
