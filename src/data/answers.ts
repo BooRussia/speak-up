@@ -177,8 +177,8 @@ export const ANSWERS: Answer[] = [
   {
     id: "contact-representatives",
     chip: "How do I contact my representatives?",
-    phrases: ["contact my representative", "contact my representatives", "call my senator", "write my congress", "email congress"],
-    keywords: ["representative", "senator", "congress", "house", "senate"],
+    phrases: ["contact my representative", "contact my representatives", "call my senator", "write my congress", "email congress", "contact my senator", "my senator", "my representative", "my congressman", "my congresswoman", "member of congress"],
+    keywords: ["representative", "senator", "senators", "congressman", "congresswoman", "congress", "senate"],
     intro: "Two U.S. senators represent your whole state. One U.S. representative represents your district. Use the official finders so you reach the right office.",
     actions: [
       {
@@ -385,7 +385,7 @@ export const ANSWERS: Answer[] = [
     id: "know-your-rights",
     chip: "What are my voting rights?",
     phrases: ["voting rights", "know your rights", "provisional ballot", "turned away", "voter intimidation"],
-    keywords: ["rights", "provisional", "intimidation", "discrimination", "id"],
+    keywords: ["rights", "provisional", "intimidation", "discrimination", "voter id"],
     intro: "Federal law protects the right to vote free from force and from certain kinds of discrimination. State rules still decide ID, deadlines, and ballots. This is not legal advice.",
     actions: [
       {

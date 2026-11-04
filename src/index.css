@@ -799,3 +799,85 @@ th button {
     scroll-behavior: auto !important;
   }
 }
+
+/* ---- QoL pass, Nov 4 2026 ---- */
+.party button, .chip { height: 44px; padding: 0 16px; }
+.sources a { min-height: 44px; }
+.handle { min-height: 44px; }
+.crumb button { padding: 0 8px; min-width: 44px; }
+.sheet .text-btn { display: flex; align-items: center; }
+
+/* edge fades on every horizontal scroll row */
+.fade-x, .seg, .chip-row, .party {
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 16px, #000 calc(100% - 32px), transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, #000 16px, #000 calc(100% - 32px), transparent 100%);
+}
+.seg { scroll-padding-left: 20px; }
+.column .seg { margin: 0 -20px; padding: 0 20px 8px; max-width: none; }
+
+/* home: suggestions inline, no dead gap */
+.chip-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+.chip-grid .chip { white-space: normal; text-align: left; height: auto; min-height: 44px; padding: 10px 16px; line-height: 1.25; }
+.home-scroll { padding-bottom: 0 !important; }
+.home-scroll .column { padding-bottom: 200px; }
+.column > .fine { margin-top: 16px; }
+.new-q { align-self: flex-start; margin-top: 16px; }
+
+.pill-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 44px; padding: 0 18px; border-radius: 999px;
+  border: 1px solid var(--line); background: var(--fill); color: var(--text);
+  font-size: 15px; font-weight: 600; text-decoration: none;
+}
+.answer .pill-btn { margin-top: 16px; }
+.btn-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.user-msg { scroll-margin-top: 12px; }
+
+/* dock: composer above a labeled tab bar, safe area at the very bottom */
+.dock { padding-bottom: 0; }
+.dock-inner { padding: 4px 0 0; }
+.composer-wrap { padding: 4px 20px 8px; }
+.tabs {
+  height: auto;
+  min-height: 56px;
+  padding-bottom: env(safe-area-inset-bottom);
+  align-items: stretch;
+}
+.tabs a, .tabs button {
+  width: auto; flex: 1; height: 56px; min-width: 44px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  font-size: 12px; font-weight: 500; line-height: 1;
+}
+.tabs a[aria-current="page"] { color: var(--accent); }
+.dock .tabs { border-top: 1px solid var(--line); }
+
+/* map: search bar above the map, never on top of it */
+.map-bar {
+  display: flex; flex-direction: column; gap: 4px;
+  padding: 0 20px 8px; background: var(--bg); flex: 0 0 auto;
+}
+.map-bar .crumb { color: var(--text); }
+.map-bar .crumb button { color: var(--text); }
+.map-bar .crumb span { color: var(--muted); }
+.map-bar .county-search { width: 100%; }
+.map-bar .county-search input { background: var(--fill); color: var(--text); }
+.map-bar .suggest { background: var(--bg); z-index: 6; }
+.map-bar .suggest button { color: var(--text); border-bottom-color: var(--line); }
+
+/* collapsible peek */
+.peek { max-height: 60%; padding-top: 0; }
+.peek .handle { min-height: 24px; padding: 8px 0 0; }
+.peek-head {
+  width: 100%; min-height: 44px; display: flex; align-items: center; gap: 8px;
+  background: none; border: 0; color: #f0f0fa; padding: 0; text-align: left;
+}
+.peek-title { font-size: 17px; font-weight: 600; }
+.peek-sum { flex: 1; font-size: 15px; color: color-mix(in srgb, #f0f0fa 60%, transparent); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.peek-toggle { font-size: 15px; color: var(--accent); }
+
+/* empty state */
+.empty { margin-top: 24px; padding: 20px; border: 1px dashed var(--line); border-radius: 16px; }
+.empty-title { margin: 0 0 4px; font-size: 17px; font-weight: 600; }
+.empty .note { margin: 0; }
+.sheet .text-btn { min-width: 44px; }
+.composer input:focus, .composer input:focus-visible { outline: none; }

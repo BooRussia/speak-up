@@ -35,7 +35,7 @@ export default function App() {
   const [about, setAbout] = useState(false)
   const [toast, setToast] = useState("")
   const [cleared, setCleared] = useState(false)
-  const theme = useSyncExternalStore(subscribe, themeChoice, () => "dark" as ThemeChoice)
+  const theme = useSyncExternalStore(subscribe, themeChoice, () => "system" as ThemeChoice)
   const patterns = useSyncExternalStore(subscribe, colorblind, () => false)
 
   useEffect(() => {
@@ -44,6 +44,7 @@ export default function App() {
 
   useEffect(() => {
     const titles: Record<string, string> = {
+      notfound: "Page not found · Speak Up",
       home: "Speak Up",
       learn: "How government works · Speak Up",
       area: "Your area · Speak Up",
@@ -89,11 +90,22 @@ export default function App() {
       <main id="main" className={route.name === "map" ? "main map-main" : "main"}>
         {route.name === "home" && <Home onCopy={copy} route={route} onSettings={() => setSettings(true)} />}
         {route.name === "learn" && <LearnView />}
+        {route.name === "notfound" && (
+          <div className="column">
+            <h1 className="hero">Page not found</h1>
+            <p>That link does not go anywhere in Speak Up. It may be mistyped or out of date.</p>
+            <div className="btn-row">
+              <a className="pill-btn" href="#/">Ask a question</a>
+              <a className="pill-btn" href="#/map">Open the map</a>
+            </div>
+          </div>
+        )}
         {route.name === "area" && <AreaView />}
         {route.name === "map" && (
           <Suspense
             fallback={
-              <div className="column" aria-hidden="true">
+              <div className="column" role="status">
+                <p className="note">Loading map…</p>
                 <div className="skeleton" />
                 <div className="skeleton w2" />
                 <div className="skeleton w3" />

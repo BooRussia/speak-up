@@ -117,8 +117,8 @@ export function LearnView() {
           4. Override needs 2/3
         </li>
       </ol>
-      <p className="note">
-        <a href="https://www.supremecourt.gov/">Supreme Court</a>
+      <p className="link-row">
+        <a href="https://www.supremecourt.gov/">Supreme Court official site</a>
       </p>
       <FinePrint />
     </div>

@@ -30,17 +30,21 @@ export function Nav({ route, onSettings }: { route: Route; onSettings: () => voi
 export function Tabs({ route, onSettings }: { route: Route; onSettings: () => void }) {
   return (
     <nav className="tabs" aria-label="Primary">
-      <a href="#/learn" aria-current={route.name === "learn" ? "page" : undefined} aria-label="Learn">
+      <a href="#/learn" aria-current={route.name === "learn" ? "page" : undefined}>
         <IconLearn />
+        <span>Learn</span>
       </a>
-      <a href="#/area" aria-current={route.name === "area" ? "page" : undefined} aria-label="Your area">
+      <a href="#/area" aria-current={route.name === "area" ? "page" : undefined}>
         <IconPin />
+        <span>Area</span>
       </a>
-      <a href="#/map" aria-current={route.name === "map" ? "page" : undefined} aria-label="Map">
+      <a href="#/map" aria-current={route.name === "map" ? "page" : undefined}>
         <IconMap />
+        <span>Map</span>
       </a>
-      <button type="button" onClick={onSettings} aria-label="Settings">
+      <button type="button" onClick={onSettings}>
         <IconGear />
+        <span>Settings</span>
       </button>
     </nav>
   )

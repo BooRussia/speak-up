@@ -29,7 +29,7 @@ function read(key: string) {
 export function themeChoice(): ThemeChoice {
   const value = read(THEME)
   if (value === "light" || value === "dark" || value === "system") return value
-  return "dark"
+  return "system"
 }
 
 export function resolvedTheme(choice = themeChoice()): "light" | "dark" {

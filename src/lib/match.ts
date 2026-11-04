@@ -22,6 +22,16 @@ export function matchQuestion(input: string): Match {
   if (/who won|election results|results map|see the map/.test(query)) return { kind: "results" }
   if (PARTISAN.test(query)) return { kind: "fallback", reason: "partisan" }
 
+  const reach = /\b(contact|call|email|e mail|write|text|reach|message|talk to|speak to|phone|letter to|tell)\b/
+  if (reach.test(query)) {
+    if (/\bgovernor\b/.test(query)) return { kind: "answer", id: "call-governor" }
+    if (/\b(senator|senators|representative|representatives|rep|reps|congressman|congresswoman|congressperson|congress|member of congress|lawmaker|lawmakers|legislator|legislators)\b/.test(query))
+      return { kind: "answer", id: "contact-representatives" }
+    if (/\b(mayor|city council|council member|councilmember|commissioner)\b/.test(query)) return { kind: "answer", id: "city-council" }
+  }
+  if (/\bwho (is|are) my (senator|senators|representative|representatives|rep|reps|congressman|congresswoman)\b/.test(query))
+    return { kind: "answer", id: "contact-representatives" }
+
   let bestId = ""
   let best = 0
   for (const answer of ANSWERS) {
@@ -38,6 +48,6 @@ export function matchQuestion(input: string): Match {
       bestId = answer.id
     }
   }
-  if (best < 4 || !bestId) return { kind: "fallback", reason: "unknown" }
+  if (best < 2 || !bestId) return { kind: "fallback", reason: "unknown" }
   return { kind: "answer", id: bestId }
 }

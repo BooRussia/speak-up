@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useSyncExternalStore } from "react"
 import { ANSWER_MAP, ANSWERS, CHIP_ORDER, LEARN_CHIP, MORE_IDS, PRIMARY_IDS } from "../data/answers.ts"
 import { matchQuestion } from "../lib/match.ts"
@@ -32,6 +32,24 @@ export function Home({
   const [turns, setTurns] = useState<Turn[]>([])
   const [more, setMore] = useState(false)
   const [open, setOpen] = useState<string | null>(null)
+  const threadRef = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    if (!turns.length) return
+    const items = threadRef.current?.querySelectorAll(".user-msg")
+    const last = items?.[items.length - 1] as HTMLElement | undefined
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    last?.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" })
+  }, [turns.length])
+
+  function newQuestion() {
+    setTurns([])
+    setOpen(null)
+    setText("")
+    document.querySelector(".main")?.scrollTo({ top: 0 })
+    inputRef.current?.focus()
+  }
 
   const lastAnswer = [...turns].reverse().find((turn) => turn.role === "answer")
   const followups =
@@ -87,7 +105,33 @@ export function Home({
             <p className="note">This only changes which questions show first. Answers stay the same for everyone.</p>
           </>
         )}
-        <div className="thread" aria-live="polite">
+        {turns.length > 0 && (
+          <button className="pill-btn new-q" type="button" onClick={newQuestion}>
+            New question
+          </button>
+        )}
+        {turns.length === 0 && (
+          <div className="chip-grid" aria-label="Suggested questions">
+            {chips.map((id) =>
+              id === "learn" ? (
+                <button key={id} className="chip" type="button" onClick={() => go("#/learn")}>
+                  {LEARN_CHIP}
+                </button>
+              ) : (
+                <button key={id} className="chip" type="button" onClick={() => ask(ANSWER_MAP.get(id)?.chip ?? id)}>
+                  {ANSWER_MAP.get(id)?.chip}
+                </button>
+              ),
+            )}
+            {!followups && (
+              <button className="chip" type="button" onClick={() => setMore((value) => !value)}>
+                {more ? "Fewer questions" : "More questions"}
+              </button>
+            )}
+          </div>
+        )}
+        {turns.length === 0 && <FinePrint />}
+        <div className="thread" aria-live="polite" ref={threadRef}>
           {turns.map((turn, index) => {
             if (turn.role === "user") {
               return (
@@ -142,8 +186,8 @@ export function Home({
                       </section>
                     )
                   })}
-                  <button className="text-btn" type="button" onClick={() => setTurns([])}>
-                    Start over
+                  <button className="pill-btn" type="button" onClick={newQuestion}>
+                    New question
                   </button>
                 </article>
               )
@@ -172,6 +216,9 @@ export function Home({
                   <a href="https://www.usa.gov/elected-officials">Elected officials on USA.gov</a>
                   <a href="https://www.house.gov/representatives/find-your-representative">Find your representative</a>
                 </div>
+                <button className="pill-btn" type="button" onClick={newQuestion}>
+                  New question
+                </button>
               </article>
             )
           })}
@@ -180,7 +227,8 @@ export function Home({
     </div>
       <div className="dock">
         <div className="dock-inner">
-          <div className="chip-row">
+          {turns.length > 0 && (
+          <div className="chip-row fade-x">
             {chips.map((id) =>
               id === "learn" ? (
                 <button key={id} className="chip" type="button" onClick={() => go("#/learn")}>
@@ -198,8 +246,7 @@ export function Home({
               </button>
             )}
           </div>
-          <FinePrint />
-          <Tabs route={route} onSettings={onSettings} />
+          )}
           <form
             className="composer-wrap"
             onSubmit={(event) => {
@@ -212,6 +259,7 @@ export function Home({
                 Your question
               </label>
               <input
+                ref={inputRef}
                 id="ask"
                 value={text}
                 placeholder="Ask a question"
@@ -227,6 +275,7 @@ export function Home({
               )}
             </div>
           </form>
+          <Tabs route={route} onSettings={onSettings} />
         </div>
       </div>
     </>

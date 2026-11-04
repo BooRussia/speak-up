@@ -5,9 +5,8 @@ import { select } from "d3-selection"
 import { zoom, zoomIdentity } from "d3-zoom"
 import "d3-transition"
 import { feature } from "topojson-client"
-import type { FeatureCollection } from "geojson"
+import type { Feature, FeatureCollection } from "geojson"
 import statesTopo from "../data/geo/states-10m.json"
-import countiesTopo from "../data/geo/counties-10m.json"
 import resultsFile from "../data/generated/results.json"
 import { byAbbr, byFips } from "../data/states.ts"
 import { bandLabel, partyWord, pct, points, votes } from "../lib/format.ts"
@@ -52,12 +51,18 @@ const STEPS = ["#121A28", "#1F3758", "#2C5488", "#3972B7", "#468FE7"]
 const PARTY: Record<Side, string> = { D: "#5B7FBF", R: "#BF5B5B", O: "#8A8A93", T: "#8A8A93" }
 
 const statesRaw = statesTopo as unknown as { objects: { states: Parameters<typeof feature>[1] } }
-const countiesRaw = countiesTopo as unknown as { objects: { counties: Parameters<typeof feature>[1] } }
 const stateCollection = feature(statesRaw as never, statesRaw.objects.states) as unknown as FeatureCollection
-const countyCollection = feature(countiesRaw as never, countiesRaw.objects.counties) as unknown as FeatureCollection
 
 const stateFeatures = stateCollection.features.filter((item) => byFips(String(item.id ?? "")))
-const countyFeatures = countyCollection.features
+let countyCache: Feature[] | null = null
+function loadCounties() {
+  return import("../data/geo/counties-10m.json").then((mod) => {
+    const raw = (mod.default ?? mod) as unknown as { objects: { counties: Parameters<typeof feature>[1] } }
+    countyCache = (feature(raw as never, raw.objects.counties) as unknown as FeatureCollection).features
+    return countyCache
+  })
+}
+const OTHER_STATE = "#1A1A20"
 
 type Mode = "votes" | "president" | "senate" | "governor" | "house"
 const MODES: { id: Mode; label: string }[] = [
@@ -105,6 +110,18 @@ export default function MapView({ stateCode, countyName }: { stateCode: string |
   const [sort, setSort] = useState<{ key: string; dir: 1 | -1 }>({ key: "name", dir: 1 })
   const patterns = usePatterns()
   const stateInfo = stateCode ? byAbbr(stateCode) : null
+  const [countyFeatures, setCountyFeatures] = useState<Feature[] | null>(countyCache)
+  const [countyError, setCountyError] = useState(false)
+  useEffect(() => {
+    if (!stateInfo || countyFeatures) return
+    let live = true
+    loadCounties()
+      .then((list) => live && setCountyFeatures(list))
+      .catch(() => live && setCountyError(true))
+    return () => {
+      live = false
+    }
+  }, [stateInfo, countyFeatures])
 
   useEffect(() => {
     const node = wrapRef.current
@@ -124,8 +141,8 @@ export default function MapView({ stateCode, countyName }: { stateCode: string |
     const proj = geoAlbersUsa()
     proj.fitExtent(
       [
-        [4, 36],
-        [size.w - 4, size.h - 96],
+        [4, 8],
+        [size.w - 4, size.h - 72],
       ],
       { type: "FeatureCollection", features: stateFeatures } as FeatureCollection,
     )
@@ -182,9 +199,9 @@ export default function MapView({ stateCode, countyName }: { stateCode: string |
       const dx = x1 - x0
       const dy = y1 - y0
       if (dx > 1 && dy > 1) {
-        const viewH = Math.max(120, size.h - 96 - 36)
+        const viewH = Math.max(120, size.h - 72 - 8)
         const k = Math.max(1, Math.min(12, 0.9 / Math.max(dx / (size.w - 8), dy / viewH)))
-        next = zoomIdentity.translate(size.w / 2 - (k * (x0 + x1)) / 2, 36 + viewH / 2 - (k * (y0 + y1)) / 2).scale(k)
+        next = zoomIdentity.translate(size.w / 2 - (k * (x0 + x1)) / 2, 8 + viewH / 2 - (k * (y0 + y1)) / 2).scale(k)
       }
     }
     selection.transition().duration(reduced ? 0 : 400).call(behavior.transform, next)
@@ -206,8 +223,11 @@ export default function MapView({ stateCode, countyName }: { stateCode: string |
   }, [countyName, stateInfo])
 
   const counties = useMemo(
-    () => (stateInfo ? countyFeatures.filter((item) => String(item.id ?? "").startsWith(stateInfo.fips)) : []),
-    [stateInfo],
+    () =>
+      stateInfo && countyFeatures
+        ? countyFeatures.filter((item) => String(item.id ?? "").startsWith(stateInfo.fips))
+        : [],
+    [stateInfo, countyFeatures],
   )
   const selectedCounty = counties.find((item) => item.properties?.name?.toLowerCase() === countyName?.toLowerCase())
 
@@ -279,9 +299,23 @@ export default function MapView({ stateCode, countyName }: { stateCode: string |
 
   const missingOffice = mode === "governor" || mode === "house"
 
+  if (stateCode && !stateInfo) {
+    return (
+      <div className="column">
+        <h1 className="hero">State not found</h1>
+        <p>“{stateCode}” is not a U.S. state code on this map. Use a two-letter code like FL or TX, or pick a state from the map.</p>
+        <div className="btn-row">
+          <button className="pill-btn" type="button" onClick={() => go("#/map")}>
+            Back to the US map
+          </button>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="map-page">
-      <div className="seg" role="group" aria-label="Map data">
+      <div className="seg fade-x" role="group" aria-label="Map data">
         {MODES.map((item) => (
           <button key={item.id} type="button" aria-pressed={mode === item.id} onClick={() => setMode(item.id)}>
             {item.label}
@@ -290,7 +324,6 @@ export default function MapView({ stateCode, countyName }: { stateCode: string |
       </div>
       {RESULTS.sample && <p className="banner">{RESULTS.sampleBanner ?? "Sample data for layout, not real results"}</p>}
       {missingOffice && <p className="banner">No county file is bundled for this office. The map is not filled with guessed results.</p>}
-      {stateCode && !stateInfo && <p className="banner">That state is not on this map.</p>}
       {table ? (
         <div className="table-wrap">
           <button className="text-btn" type="button" onClick={() => setTable(false)}>
@@ -335,87 +368,8 @@ export default function MapView({ stateCode, countyName }: { stateCode: string |
           <p className="note">{sourceLine(mode)}</p>
         </div>
       ) : (
-        <div className="map-wrap" ref={wrapRef}>
-          {size.w > 0 && path && (
-            <svg ref={svgRef} role="img" aria-label="United States map. Use the table for the same numbers.">
-              <defs>
-                {STEPS.map((color, index) => (
-                  <pattern key={color} id={`step-${index}`} width="8" height="8" patternUnits="userSpaceOnUse">
-                    <rect width="8" height="8" fill={color} />
-                    {Array.from({ length: index + 1 }, (_, dot) => (
-                      <circle key={dot} cx={(dot * 3) % 8} cy={dot % 2 === 0 ? 2 : 6} r="0.8" fill="#F0F0FA" />
-                    ))}
-                  </pattern>
-                ))}
-                <pattern id="side-D" width="8" height="8" patternUnits="userSpaceOnUse">
-                  <rect width="8" height="8" fill={PARTY.D} />
-                  <circle cx="2" cy="2" r="1.1" fill="#0B0B10" />
-                  <circle cx="6" cy="6" r="1.1" fill="#0B0B10" />
-                </pattern>
-                <pattern id="side-R" width="8" height="8" patternUnits="userSpaceOnUse">
-                  <rect width="8" height="8" fill={PARTY.R} />
-                  <path d="M0 8 L8 0" stroke="#0B0B10" strokeWidth="1.4" />
-                </pattern>
-                <pattern id="side-O" width="8" height="8" patternUnits="userSpaceOnUse">
-                  <rect width="8" height="8" fill={PARTY.O} />
-                  <path d="M0 4 H8" stroke="#0B0B10" strokeWidth="1.2" />
-                </pattern>
-                <pattern id="side-T" width="8" height="8" patternUnits="userSpaceOnUse" href="#side-O" />
-              </defs>
-              <g ref={gRef}>
-                {stateFeatures.map((item) => {
-                  const info = byFips(String(item.id))
-                  if (!info) return null
-                  const d = path(item as GeoPermissibleObjects)
-                  if (!d) return null
-                  return (
-                    <path
-                      key={info.abbr}
-                      d={d}
-                      fill={paint(info.abbr)}
-                      stroke="rgba(240,240,250,0.25)"
-                      strokeWidth={1}
-                      vectorEffect="non-scaling-stroke"
-                      onClick={() => {
-                        setOpen(true)
-                        go(mapHash(info.abbr))
-                      }}
-                    />
-                  )
-                })}
-                {stateInfo &&
-                  [...counties]
-                    .sort((a, b) => Number(a.properties?.name?.toLowerCase() === countyName?.toLowerCase()) - Number(b.properties?.name?.toLowerCase() === countyName?.toLowerCase()))
-                    .map((item) => {
-                    const d = path(item as GeoPermissibleObjects)
-                    if (!d) return null
-                    const name = item.properties?.name ?? ""
-                    const selected = name.toLowerCase() === countyName?.toLowerCase()
-                    return (
-                      <path
-                        key={String(item.id)}
-                        d={d}
-                        fill={paint(stateInfo.abbr, String(item.id))}
-                        stroke={selected ? "#F0F0FA" : "rgba(240,240,250,0.12)"}
-                        strokeWidth={selected ? 2 : 0.5}
-                        vectorEffect="non-scaling-stroke"
-                        onClick={() => {
-                          setOpen(true)
-                          go(mapHash(stateInfo.abbr, name))
-                        }}
-                      />
-                    )
-                  })}
-                {!stateInfo &&
-                  stateLabels.map((item) => (
-                    <text key={item.abbr} x={item.x} y={item.y} textAnchor="middle" fill="#b7b7c2" fontSize="11" pointerEvents="none">
-                      {item.abbr}
-                    </text>
-                  ))}
-              </g>
-            </svg>
-          )}
-          <div className="map-overlay">
+        <>
+          <div className="map-bar">
             <div className="crumb">
               {stateInfo ? (
                 <button type="button" onClick={() => go("#/map")}>
@@ -478,11 +432,106 @@ export default function MapView({ stateCode, countyName }: { stateCode: string |
               </div>
             )}
           </div>
+        <div className="map-wrap" ref={wrapRef}>
+          {size.w > 0 && path && (
+            <svg ref={svgRef} role="img" aria-label="United States map. Use the table for the same numbers.">
+              <defs>
+                {STEPS.map((color, index) => (
+                  <pattern key={color} id={`step-${index}`} width="8" height="8" patternUnits="userSpaceOnUse">
+                    <rect width="8" height="8" fill={color} />
+                    {Array.from({ length: index + 1 }, (_, dot) => (
+                      <circle key={dot} cx={(dot * 3) % 8} cy={dot % 2 === 0 ? 2 : 6} r="0.8" fill="#F0F0FA" />
+                    ))}
+                  </pattern>
+                ))}
+                <pattern id="side-D" width="8" height="8" patternUnits="userSpaceOnUse">
+                  <rect width="8" height="8" fill={PARTY.D} />
+                  <circle cx="2" cy="2" r="1.1" fill="#0B0B10" />
+                  <circle cx="6" cy="6" r="1.1" fill="#0B0B10" />
+                </pattern>
+                <pattern id="side-R" width="8" height="8" patternUnits="userSpaceOnUse">
+                  <rect width="8" height="8" fill={PARTY.R} />
+                  <path d="M0 8 L8 0" stroke="#0B0B10" strokeWidth="1.4" />
+                </pattern>
+                <pattern id="side-O" width="8" height="8" patternUnits="userSpaceOnUse">
+                  <rect width="8" height="8" fill={PARTY.O} />
+                  <path d="M0 4 H8" stroke="#0B0B10" strokeWidth="1.2" />
+                </pattern>
+                <pattern id="side-T" width="8" height="8" patternUnits="userSpaceOnUse" href="#side-O" />
+              </defs>
+              <g ref={gRef}>
+                {stateFeatures.map((item) => {
+                  const info = byFips(String(item.id))
+                  if (!info) return null
+                  const d = path(item as GeoPermissibleObjects)
+                  if (!d) return null
+                  return (
+                    <path
+                      key={info.abbr}
+                      d={d}
+                      fill={stateInfo && info.abbr !== stateInfo.abbr ? OTHER_STATE : paint(info.abbr)}
+                      stroke={stateInfo && info.abbr !== stateInfo.abbr ? "rgba(240,240,250,0.08)" : "rgba(240,240,250,0.25)"}
+                      strokeWidth={1}
+                      vectorEffect="non-scaling-stroke"
+                      onClick={() => {
+                        go(mapHash(info.abbr))
+                      }}
+                    />
+                  )
+                })}
+                {stateInfo &&
+                  [...counties]
+                    .sort((a, b) => Number(a.properties?.name?.toLowerCase() === countyName?.toLowerCase()) - Number(b.properties?.name?.toLowerCase() === countyName?.toLowerCase()))
+                    .map((item) => {
+                    const d = path(item as GeoPermissibleObjects)
+                    if (!d) return null
+                    const name = item.properties?.name ?? ""
+                    const selected = name.toLowerCase() === countyName?.toLowerCase()
+                    return (
+                      <path
+                        key={String(item.id)}
+                        d={d}
+                        fill={paint(stateInfo.abbr, String(item.id))}
+                        stroke={selected ? "#F0F0FA" : "rgba(240,240,250,0.12)"}
+                        strokeWidth={selected ? 2 : 0.5}
+                        vectorEffect="non-scaling-stroke"
+                        onClick={() => {
+                          setOpen(true)
+                          go(mapHash(stateInfo.abbr, name))
+                        }}
+                      />
+                    )
+                  })}
+                {!stateInfo &&
+                  stateLabels.map((item) => (
+                    <text key={item.abbr} x={item.x} y={item.y} textAnchor="middle" fill="#b7b7c2" fontSize="11" pointerEvents="none">
+                      {item.abbr}
+                    </text>
+                  ))}
+              </g>
+            </svg>
+          )}
           <section className="peek" aria-live="polite">
-            <button className="handle" type="button" aria-expanded={open} onClick={() => setOpen((value) => !value)}>
+            <div className="handle" aria-hidden="true" onClick={() => setOpen((value) => !value)}>
               <span className="grab" />
-              <span className="sr">{open ? "Hide details" : "Show details"}</span>
+            </div>
+            <button className="peek-head" type="button" aria-expanded={open} onClick={() => setOpen((value) => !value)}>
+              <span className="peek-title">{selectedCounty?.properties?.name ?? stateInfo?.name ?? "United States"}</span>
+              <span className="peek-sum nums">
+                {stateInfo && !countyFeatures && !countyError
+                  ? "Loading counties…"
+                  : countyError
+                    ? "Counties could not load. Check your connection."
+                    : focusUnit && (mode === "votes" || mode === "president")
+                      ? `${votes(focusUnit.total)} votes`
+                      : stateInfo
+                        ? "Tap a county"
+                        : "Tap a state"}
+              </span>
+              <span className="peek-toggle">{open ? "Less" : "More"}</span>
             </button>
+            {open && (
+            <>
             <div className="sheet-actions">
               <button type="button" onClick={() => setTable(true)}>
                 View as table
@@ -492,7 +541,6 @@ export default function MapView({ stateCode, countyName }: { stateCode: string |
               </button>
             </div>
             <Legend mode={mode} patterns={patterns} edges={bands.edges} />
-            {open && (
               <Peek
                 title={selectedCounty?.properties?.name ?? stateInfo?.name ?? "United States"}
                 mode={mode}
@@ -510,9 +558,11 @@ export default function MapView({ stateCode, countyName }: { stateCode: string |
                   .filter(Boolean)
                   .join(" ")}
               />
+            </>
             )}
           </section>
         </div>
+        </>
       )}
     </div>
   )
@@ -581,7 +631,7 @@ function Peek({
 }) {
   return (
     <div>
-      <h2>{title}</h2>
+      <h2 className="sr">{title}</h2>
       {mode === "governor" || mode === "house" ? (
         <p>County winners for this office are not in the bundled file.</p>
       ) : !unit ? (

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="%BASE_URL%favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
     <meta name="theme-color" content="#000000" />
     <meta
       name="description"
@@ -15,7 +15,7 @@
         var stored = localStorage.getItem("speakup.theme")
         var theme = "dark"
         if (stored === "light" || stored === "dark") theme = stored
-        else if (stored === "system") {
+        else {
           theme = matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"
         }
         document.documentElement.dataset.theme = theme

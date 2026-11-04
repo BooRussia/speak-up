@@ -93,6 +93,8 @@ export function AreaView() {
           className="field"
           value={query}
           placeholder="City or ZIP"
+          enterKeyHint="search"
+          autoComplete="postal-code"
           onChange={(event) => setQuery(event.target.value)}
         />
         <button className="text-btn" type="button" onClick={locate}>
@@ -107,7 +109,12 @@ export function AreaView() {
           <div className="skeleton w3" />
         </div>
       )}
-      {!saved && !locating && <p>Enter a city or ZIP to see offices for your state.</p>}
+      {!saved && !locating && (
+        <div className="empty">
+          <p className="empty-title">Find who represents you</p>
+          <p className="note">Type a city and state (like “Ocala FL”) or a ZIP code, then press Enter. Your place stays in this browser.</p>
+        </div>
+      )}
       {saved && state && (
         <>
           <p className="note">{placeLabel}. A ZIP prefix gives the state, not your House district.</p>
@@ -134,16 +141,23 @@ export function AreaView() {
               />
             ))}
             {CONGRESS.unlistedSenate.includes(state.abbr) && (
-              <p className="note">
-                One {state.name} Senate seat has no current term in the Nov 4, 2026 legislators file.
-              </p>
+              <>
+                <p className="note">
+                  Every state has two U.S. senators, but our list only shows one for {state.name} right now. The other seat
+                  is changing hands (for example after an appointment or special election), so our data file has no current
+                  entry for it.
+                </p>
+                <p className="link-row">
+                  <a href="https://www.senate.gov/senators/senators-contact.htm">Check senate.gov for both senators</a>
+                </p>
+              </>
             )}
             {reps.length > 1 && (
               <label className="district">
-                <span className="name">U.S. House district</span>
-                <span className="office">Choose a district if you know it</span>
+                <span className="name">Your U.S. House district</span>
+                <span className="office">Optional. Pick yours to see your representative. Not sure? Use “Find your representative” below.</span>
                 <select value={district} onChange={(event) => setDistrict(event.target.value)} aria-label="House district">
-                  <option value="">District</option>
+                  <option value="">Choose a district</option>
                   {reps.map((rep) => (
                     <option key={rep.district} value={String(rep.district ?? 0)}>
                       {rep.district === 0 ? "At large" : `District ${rep.district}`}

@@ -2,6 +2,7 @@ export type Route =
   | { name: "home" }
   | { name: "learn" }
   | { name: "area" }
+  | { name: "notfound" }
   | { name: "map"; state: string | null; county: string | null }
 
 export function parseHash(hash: string): Route {
@@ -15,7 +16,8 @@ export function parseHash(hash: string): Route {
       county: parts[2] ? decodeURIComponent(parts[2].replace(/\+/g, " ")) : null,
     }
   }
-  return { name: "home" }
+  if (parts.length === 0) return { name: "home" }
+  return { name: "notfound" }
 }
 
 export function go(hash: string) {
