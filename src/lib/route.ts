@@ -1,6 +1,7 @@
 export type Route =
   | { name: "home" }
   | { name: "learn" }
+  | { name: "results"; section: string | null }
   | { name: "area" }
   | { name: "notfound" }
   | { name: "map"; state: string | null; county: string | null }
@@ -8,6 +9,7 @@ export type Route =
 export function parseHash(hash: string): Route {
   const parts = (hash.replace(/^#/, "") || "/").split("/").filter(Boolean)
   if (parts[0] === "learn") return { name: "learn" }
+  if (parts[0] === "results") return { name: "results", section: parts[1] ?? null }
   if (parts[0] === "area") return { name: "area" }
   if (parts[0] === "map") {
     return {

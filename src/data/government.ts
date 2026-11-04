@@ -39,21 +39,28 @@ export const NOW_NOTE =
 
 export const PROJECTED = {
   label: "Starting Jan 3, 2027 (120th Congress)",
-  asOf: "Projected, Nov 4, 2026",
+  asOf: "Projected · results still coming in · updated Nov 4, 2:30 PM ET",
   detail:
-    "Not certified. Senate figures were reported as about 53 Democratic and 47 Republican. House Democratic seats were reported as 252–255. The House chart draws 253 Democratic dots and 182 Republican dots so every seat has a place.",
+    "Unofficial. Senate: Democrats projected at 54 seats including 2 independents who caucus with them, Republicans 44, with Alaska and Mississippi uncalled. House: Democrats projected to hold the majority; the AP count shows 237 Democratic, 139 Republican and 59 uncalled. Winners take office Jan 3, 2027.",
+  sources: [
+    { label: "Guardian (AP data)", href: "https://www.theguardian.com/us-news/ng-interactive/2026/nov/04/midterm-elections-full-results-senate-house-governor-races" },
+    { label: "CBS News", href: "https://www.cbsnews.com/live-updates/senate-election-results-2026/" },
+    { label: "NPR balance of power", href: "https://www.npr.org/2026/11/03/g-s1-149526/2026-midterms-congress-balance-of-power" },
+  ],
   senate: {
-    democrat: 53,
-    republican: 47,
-    independent: 0,
+    democrat: 52,
+    republican: 44,
+    independent: 2,
     unlisted: 0,
+    uncalled: 2,
     total: 100,
   } satisfies Counts,
   house: {
-    democrat: 253,
-    republican: 182,
+    democrat: 237,
+    republican: 139,
     independent: 0,
     unlisted: 0,
+    uncalled: 59,
     total: 435,
   } satisfies Counts,
 }

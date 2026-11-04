@@ -13,7 +13,8 @@ function usePatterns() {
 const FILL: Record<Seat, string> = {
   D: "#5B7FBF",
   R: "#BF5B5B",
-  I: "#9A9AA3",
+  I: "#9A84D6",
+  U: "#8A8A93",
   V: "transparent",
 }
 
@@ -70,9 +71,23 @@ export function LearnView() {
         </button>
       </div>
       {when === "next" && (
-        <p>
-          {PROJECTED.asOf}. {PROJECTED.detail}
-        </p>
+        <>
+          <p className="badge-line">
+            <span className="badge uncalled">{PROJECTED.asOf}</span>
+          </p>
+          <p>{PROJECTED.detail}</p>
+          <p className="race-src">
+            Sources:{" "}
+            {PROJECTED.sources.map((src, index) => (
+              <span key={src.href}>
+                {index > 0 && " · "}
+                <a className="src" href={src.href} target="_blank" rel="noreferrer">
+                  {src.label}
+                </a>
+              </span>
+            ))}
+          </p>
+        </>
       )}
       {when === "now" && <p className="note">{NOW_NOTE}</p>}
       <Chamber title="Senate" counts={senate} threshold={51} patterns={patterns} />
@@ -90,6 +105,14 @@ export function LearnView() {
         </p>
       )}
 
+      <a className="results-link" href="#/results">
+        <span>
+          <span className="node-title">2026 results</span>
+          <span className="node-meta"> · Senate, governors, House, Florida</span>
+        </span>
+        <span aria-hidden="true">›</span>
+      </a>
+
       <h2 className="kicker">Divided government</h2>
       <p>
         Divided government means the President is from one party and the other party holds the House, the Senate, or both.
@@ -98,7 +121,7 @@ export function LearnView() {
       <p>Bills that the majority in Congress opposes do not pass.</p>
       <p>The Senate must confirm federal judges and Cabinet picks. When the Senate and the President disagree, nominations can wait.</p>
       <p>Budget fights are more common. If they do not agree on funding, parts of the government can shut down.</p>
-      <p className="note">On the projected 2027 counts, the President is Republican and both chambers were reported as Democratic. That would be divided government. Those counts are not certified.</p>
+      <p className="note">On the projected 2027 counts, the President is Republican and Democrats are projected to control both chambers. That would be divided government. Results are unofficial and still coming in.</p>
       <ol className="flow">
         <li>
           <i />
@@ -189,7 +212,9 @@ function Chamber({
         {title}
       </h3>
       <p className="counts">
-        {counts.democrat} Democrats · {counts.republican} Republicans · {counts.independent} Independents · {counts.unlisted} not listed.
+        {counts.uncalled !== undefined
+          ? `${counts.democrat + counts.independent} Democratic${counts.independent ? ` (incl. ${counts.independent} independents)` : ""} · ${counts.republican} Republicans · ${counts.uncalled} uncalled.`
+          : `${counts.democrat} Democrats · ${counts.republican} Republicans · ${counts.independent} Independents · ${counts.unlisted} not listed.`}{" "}
         Majority threshold {threshold}.
       </p>
       <div className="chart-wrap">
@@ -212,7 +237,11 @@ function Chamber({
         <LegendItem seat="D" label="Democrat" patterns={patterns} />
         <LegendItem seat="R" label="Republican" patterns={patterns} />
         <LegendItem seat="I" label="Independent" patterns={patterns} />
-        <LegendItem seat="V" label="Not listed" patterns={patterns} />
+        {counts.uncalled !== undefined ? (
+          <LegendItem seat="U" label="Uncalled" patterns={patterns} />
+        ) : (
+          <LegendItem seat="V" label="Not listed" patterns={patterns} />
+        )}
       </div>
     </section>
   )
@@ -237,6 +266,9 @@ function Dot({ seat, x, y, r, patterns }: { seat: Seat; x: number; y: number; r:
   }
   if (seat === "R") {
     return <rect x={x - r} y={y - r} width={r * 2} height={r * 2} fill={fill} />
+  }
+  if (seat === "U") {
+    return <circle cx={x} cy={y} r={r * 0.8} fill={fill} />
   }
   if (seat === "I") {
     return <polygon points={`${x},${y - r} ${x + r},${y} ${x},${y + r} ${x - r},${y}`} fill={fill} />

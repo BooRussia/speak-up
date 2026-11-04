@@ -1,10 +1,11 @@
-export type Seat = "D" | "R" | "I" | "V"
+export type Seat = "D" | "R" | "I" | "U" | "V"
 
 export type Counts = {
   democrat: number
   republican: number
   independent: number
   unlisted: number
+  uncalled?: number
   total: number
 }
 
@@ -14,7 +15,8 @@ export function seatOrder(counts: Counts): Seat[] {
   for (let n = 0; n < counts.republican; n++) seats[counts.total - 1 - n] = "R"
   const gaps = seats.flatMap((seat, index) => (seat === null ? [index] : []))
   gaps.forEach((index, order) => {
-    seats[index] = order < counts.independent ? "I" : "V"
+    const uncalled = counts.uncalled ?? 0
+    seats[index] = order < counts.independent ? "I" : order < counts.independent + uncalled ? "U" : "V"
   })
   return seats.map((seat) => seat ?? "V")
 }

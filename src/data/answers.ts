@@ -179,7 +179,7 @@ export const ANSWERS: Answer[] = [
     chip: "How do I contact my representatives?",
     phrases: ["contact my representative", "contact my representatives", "call my senator", "write my congress", "email congress", "contact my senator", "my senator", "my representative", "my congressman", "my congresswoman", "member of congress"],
     keywords: ["representative", "senator", "senators", "congressman", "congresswoman", "congress", "senate"],
-    intro: "Two U.S. senators represent your whole state. One U.S. representative represents your district. Use the official finders so you reach the right office.",
+    intro: "Two U.S. senators represent your whole state. One U.S. representative represents your district. Use the official finders so you reach the right office. Members elected on Nov 3, 2026 take office Jan 3, 2027; the people serving now are still the ones to contact.",
     actions: [
       {
         title: "Find the right offices",
@@ -213,7 +213,7 @@ export const ANSWERS: Answer[] = [
     chip: "How do I call my governor?",
     phrases: ["call my governor", "contact the governor", "governor's office", "email the governor"],
     keywords: ["governor"],
-    intro: "The governor runs the state executive branch. The office main line and the official website are the right places to call.",
+    intro: "The governor runs the state executive branch. The office main line and the official website are the right places to call. Governors elected on Nov 3, 2026 take office in January 2027; until then, call the governor serving now.",
     actions: [
       {
         title: "Open the official contact page",

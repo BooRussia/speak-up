@@ -52,6 +52,7 @@ import {
   type LucideIcon,
 } from "lucide-react"
 import { STATES, byAbbr } from "../data/states.ts"
+import { governorRace, senateRaces } from "../data/elections.ts"
 
 type Turn =
   | { role: "user"; text: string }
@@ -289,7 +290,22 @@ export function Home({
                     <div className="scope-card">
                       <p className="sources-label">In {scopeInfo.name}</p>
                       {turn.id === "call-governor" && scopeInfo.governor ? (
-                        <a href={scopeInfo.governor.url}>Governor {scopeInfo.governor.name}</a>
+                        <a href={scopeInfo.governor.url}>Governor {scopeInfo.governor.name} (serving now)</a>
+                      ) : null}
+                      {turn.id === "call-governor" && governorRace(scopeInfo.abbr)?.winner ? (
+                        <p className="note">
+                          {governorRace(scopeInfo.abbr)?.winner} ({governorRace(scopeInfo.abbr)?.party}) was elected Nov 3 and takes office in January 2027. Until then, call the current governor. Unofficial.
+                        </p>
+                      ) : null}
+                      {turn.id === "contact-representatives" && senateRaces(scopeInfo.abbr).some((r) => r.winner) ? (
+                        <p className="note">
+                          2026 Senate winner{senateRaces(scopeInfo.abbr).filter((r) => r.winner).length > 1 ? "s" : ""}:{" "}
+                          {senateRaces(scopeInfo.abbr)
+                            .filter((r) => r.winner)
+                            .map((r) => `${r.winner} (${r.party})${r.special ? ", special" : ""}`)
+                            .join("; ")}
+                          . Your current senators serve until the new term starts. Unofficial.
+                        </p>
                       ) : null}
                       {turn.id === "city-council" || turn.id === "run-for-office" ? (
                         <a href={scopeInfo.ballotUrl}>{scopeInfo.name} sample ballot and local offices</a>

@@ -2,6 +2,7 @@ import { useState } from "react"
 import { useSyncExternalStore } from "react"
 import { CONGRESS } from "../data/government.ts"
 import { byAbbr } from "../data/states.ts"
+import { governorRace, senateRaces } from "../data/elections.ts"
 import { formatPhone, initials, telHref } from "../lib/format.ts"
 import { stateFromLonLat } from "../lib/geo.ts"
 import { parsePlace } from "../lib/place.ts"
@@ -142,7 +143,7 @@ export function AreaView() {
               <OfficialRow
                 key={person.name}
                 name={person.name}
-                office={`U.S. Senator · ${state.name}`}
+                office={`U.S. Senator · ${state.name} · serving now`}
                 phone={person.phone}
                 href={person.contact}
               />
@@ -153,6 +154,15 @@ export function AreaView() {
                 <a className="inline-link" href="https://www.senate.gov/senators/senators-contact.htm">Check senate.gov</a>
               </p>
             )}
+            {senateRaces(state.abbr).map((race) => (
+              <p className="note elect-note" key={`s${race.special}`}>
+                2026 U.S. Senate{race.special ? " special" : ""} race:{" "}
+                {race.winner
+                  ? `${race.winner} (${race.party}) won${race.called ? "" : ", not yet called"}. ${race.special ? "" : "Takes office Jan 3, 2027."}`
+                  : "not yet called."}{" "}
+                Unofficial. <a className="inline-link" href="#/results/senate">2026 results</a>
+              </p>
+            ))}
             {reps.length > 1 && (
               <label className="district">
                 <span className="name">Your U.S. House district</span>
@@ -198,11 +208,24 @@ export function AreaView() {
             {state.governor && (
               <OfficialRow
                 name={state.governor.name}
-                office={`Governor · ${state.name}`}
+                office={`Governor · ${state.name} · serving now`}
                 phone={state.governor.phone}
                 href={state.governor.url}
               />
             )}
+            {(() => {
+              const race = governorRace(state.abbr)
+              if (!race) return null
+              return (
+                <p className="note elect-note">
+                  2026 governor race:{" "}
+                  {race.winner
+                    ? `${race.winner} (${race.party}) elected, takes office January 2027.`
+                    : "not yet called."}{" "}
+                  Unofficial. <a className="inline-link" href="#/results/governors">2026 results</a>
+                </p>
+              )
+            })()}
             {state.mayor && (
               <OfficialRow
                 name={state.mayor.name}

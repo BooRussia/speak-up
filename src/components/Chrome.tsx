@@ -14,7 +14,7 @@ export function Nav({ route, onSettings }: { route: Route; onSettings: () => voi
         Speak Up
       </button>
       <nav className="nav-links" aria-label="Primary">
-        <a href="#/learn" aria-current={route.name === "learn" ? "page" : undefined}>
+        <a href="#/learn" aria-current={route.name === "learn" || route.name === "results" ? "page" : undefined}>
           Learn
         </a>
         <a href="#/area" aria-current={route.name === "area" ? "page" : undefined}>
@@ -35,7 +35,7 @@ export function Tabs({ route, onSettings }: { route: Route; onSettings: () => vo
   const scope = useSyncExternalStore(subscribe, scopeState, () => null)
   return (
     <nav className="tabs" aria-label="Primary">
-      <a href="#/learn" aria-current={route.name === "learn" ? "page" : undefined}>
+      <a href="#/learn" aria-current={route.name === "learn" || route.name === "results" ? "page" : undefined}>
         <BookOpen {...ICON} />
         <span>Learn</span>
       </a>

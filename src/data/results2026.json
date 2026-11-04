@@ -1,0 +1,843 @@
+{
+  "generated_at": "2026-11-04T14:30:00-05:00",
+  "status": "Unofficial, results still being counted. Calls are AP (via news outlets) unless noted.",
+  "senate": {
+    "projected_balance_jan_3_2027": {
+      "D": 52,
+      "I_caucusing_D": 2,
+      "D_caucus_total": 54,
+      "R": 44,
+      "uncalled": [
+        "Alaska",
+        "Mississippi"
+      ],
+      "control": "Democratic (projected by AP, CBS, NPR, ABC)",
+      "sources": [
+        "https://www.theguardian.com/us-news/ng-interactive/2026/nov/04/midterm-elections-full-results-senate-house-governor-races",
+        "https://www.cbsnews.com/live-updates/senate-election-results-2026/",
+        "https://www.npr.org/2026/11/03/g-s1-149526/2026-midterms-congress-balance-of-power"
+      ],
+      "note": "Guardian/AP: D 54 (incl. 2 independents) vs R 44, 33/35 races called, as of 9:10 AM ET. ABC shows 54-43 (different treatment of uncalled seats). Dem flips: IA, KS, ME, NC, OH, SC, TX."
+    },
+    "races": [
+      {
+        "state": "Florida",
+        "special": true,
+        "winner": "Ashley Moody",
+        "party": "R",
+        "called": true,
+        "winner_vote_pct": 50.87,
+        "source": "https://en.wikipedia.org/wiki/2026_United_States_Senate_special_election_in_Florida",
+        "vote_pct_source": "https://floridaelectionwatch.gov/TrackCounty/MRN"
+      },
+      {
+        "state": "Ohio",
+        "special": true,
+        "winner": "Sherrod Brown",
+        "party": "D",
+        "called": true,
+        "winner_vote_pct": 50,
+        "source": "https://en.wikipedia.org/wiki/2026_United_States_Senate_special_election_in_Ohio",
+        "vote_pct_source": "https://abcnews.com/Politics/live-updates/midterm-elections-live-updates/?entryId=137835668&id=137782085"
+      },
+      {
+        "state": "Alabama",
+        "special": false,
+        "winner": "Barry Moore",
+        "party": "R",
+        "called": true,
+        "winner_vote_pct": 54.7,
+        "source": "https://en.wikipedia.org/wiki/2026_United_States_Senate_election_in_Alabama",
+        "vote_pct_source": "https://www.theguardian.com/us-news/ng-interactive/2026/nov/04/midterm-elections-full-results-senate-house-governor-races"
+      },
+      {
+        "state": "Alaska",
+        "special": false,
+        "winner": null,
+        "party": null,
+        "called": false,
+        "winner_vote_pct": null,
+        "source": "https://www.theguardian.com/us-news/ng-interactive/2026/nov/04/midterm-elections-full-results-senate-house-governor-races",
+        "note": "Uncalled. Guardian/AP count: Mary Peltola (D) 48.2%, Dan Sullivan* (R) 47.9%; ranked-choice tabulation may be needed."
+      },
+      {
+        "state": "Arkansas",
+        "special": false,
+        "winner": "Tom Cotton",
+        "party": "R",
+        "called": true,
+        "winner_vote_pct": 54.3,
+        "source": "https://en.wikipedia.org/wiki/2026_United_States_Senate_election_in_Arkansas",
+        "vote_pct_source": "https://www.theguardian.com/us-news/ng-interactive/2026/nov/04/midterm-elections-full-results-senate-house-governor-races"
+      },
+      {
+        "state": "Colorado",
+        "special": false,
+        "winner": "John Hickenlooper",
+        "party": "D",
+        "called": true,
+        "winner_vote_pct": 60.2,
+        "source": "https://en.wikipedia.org/wiki/2026_United_States_Senate_election_in_Colorado",
+        "vote_pct_source": "https://www.theguardian.com/us-news/ng-interactive/2026/nov/04/midterm-elections-full-results-senate-house-governor-races"
+      },
+      {
+        "state": "Delaware",
+        "special": false,
+        "winner": "Chris Coons",
+        "party": "D",
+        "called": true,
+        "winner_vote_pct": 63.6,
+        "source": "https://en.wikipedia.org/wiki/2026_United_States_Senate_election_in_Delaware",
+        "vote_pct_source": "https://www.theguardian.com/us-news/ng-interactive/2026/nov/04/midterm-elections-full-results-senate-house-governor-races"
+      },
+      {
+        "state": "Georgia",
+        "special": false,
+        "winner": "Jon Ossoff",
+        "party": "D",
+        "called": true,
+        "winner_vote_pct": 59,
+        "source": "https://en.wikipedia.org/wiki/2026_United_States_Senate_election_in_Georgia",
+        "vote_pct_source": "https://abcnews.com/Politics/live-updates/midterm-elections-live-updates/?entryId=137835668&id=137782085"
+      },
+      {
+        "state": "Idaho",
+        "special": false,
+        "winner": "Jim Risch",
+        "party": "R",
+        "called": true,
+        "winner_vote_pct": null,
+        "source": "https://en.wikipedia.org/wiki/2026_United_States_Senate_election_in_Idaho"
+      },
+      {
+        "state": "Illinois",
+        "special": false,
+        "winner": "Juliana Stratton",
+        "party": "D",
+        "called": true,
+        "winner_vote_pct": null,
+        "source": "https://en.wikipedia.org/wiki/2026_United_States_Senate_election_in_Illinois"
+      },
+      {
+        "state": "Iowa",
+        "special": false,
+        "winner": "Josh Turek",
+        "party": "D",
+        "called": true,
+        "winner_vote_pct": null,
+        "source": "https://en.wikipedia.org/wiki/2026_United_States_Senate_election_in_Iowa"
+      },
+      {
+        "state": "Kansas",
+        "special": false,
+        "winner": "Adam Hamilton",
+        "party": "D",
+        "called": true,
+        "winner_vote_pct": null,
+        "source": "https://en.wikipedia.org/wiki/2026_United_States_Senate_election_in_Kansas"
+      },
+      {
+        "state": "Kentucky",
+        "special": false,
+        "winner": "Andy Barr",
+        "party": "R",
+        "called": true,
+        "winner_vote_pct": null,
+        "source": "https://en.wikipedia.org/wiki/2026_United_States_Senate_election_in_Kentucky"
+      },
+      {
+        "state": "Louisiana",
+        "special": false,
+        "winner": "Julia Letlow",
+        "party": "R",
+        "called": true,
+        "winner_vote_pct": null,
+        "source": "https://en.wikipedia.org/wiki/2026_United_States_Senate_election_in_Louisiana"
+      },
+      {
+        "state": "Maine",
+        "special": false,
+        "winner": "Troy Jackson",
+        "party": "D",
+        "called": true,
+        "winner_vote_pct": 54,
+        "source": "https://en.wikipedia.org/wiki/2026_United_States_Senate_election_in_Maine",
+        "vote_pct_source": "https://abcnews.com/Politics/live-updates/midterm-elections-live-updates/?entryId=137835668&id=137782085"
+      },
+      {
+        "state": "Massachusetts",
+        "special": false,
+        "winner": "Ed Markey",
+        "party": "D",
+        "called": true,
+        "winner_vote_pct": null,
+        "source": "https://en.wikipedia.org/wiki/2026_United_States_Senate_election_in_Massachusetts"
+      },
+      {
+        "state": "Michigan",
+        "special": false,
+        "winner": "Abdul El-Sayed",
+        "party": "D",
+        "called": true,
+        "winner_vote_pct": null,
+        "source": "https://en.wikipedia.org/wiki/2026_United_States_Senate_election_in_Michigan"
+      },
+      {
+        "state": "Minnesota",
+        "special": false,
+        "winner": "Peggy Flanagan",
+        "party": "D",
+        "called": true,
+        "winner_vote_pct": null,
+        "source": "https://en.wikipedia.org/wiki/2026_United_States_Senate_election_in_Minnesota"
+      },
+      {
+        "state": "Mississippi",
+        "special": false,
+        "winner": null,
+        "party": null,
+        "called": false,
+        "winner_vote_pct": null,
+        "source": "https://www.cbsnews.com/live-updates/senate-election-results-2026/",
+        "note": "Uncalled; CBS rates toss-up. Candidates: Cindy Hyde-Smith* (R), Scott Colom (D), Ty Pinkins (I)."
+      },
+      {
+        "state": "Montana",
+        "special": false,
+        "winner": "Kurt Alme",
+        "party": "R",
+        "called": true,
+        "winner_vote_pct": null,
+        "source": "https://en.wikipedia.org/wiki/2026_United_States_Senate_election_in_Montana"
+      },
+      {
+        "state": "Nebraska",
+        "special": false,
+        "winner": "Pete Ricketts",
+        "party": "R",
+        "called": true,
+        "winner_vote_pct": null,
+        "source": "https://en.wikipedia.org/wiki/2026_United_States_Senate_election_in_Nebraska"
+      },
+      {
+        "state": "New Hampshire",
+        "special": false,
+        "winner": "Chris Pappas",
+        "party": "D",
+        "called": true,
+        "winner_vote_pct": null,
+        "source": "https://en.wikipedia.org/wiki/2026_United_States_Senate_election_in_New_Hampshire"
+      },
+      {
+        "state": "New Jersey",
+        "special": false,
+        "winner": "Cory Booker",
+        "party": "D",
+        "called": true,
+        "winner_vote_pct": null,
+        "source": "https://en.wikipedia.org/wiki/2026_United_States_Senate_election_in_New_Jersey"
+      },
+      {
+        "state": "New Mexico",
+        "special": false,
+        "winner": "Ben Ray Luján",
+        "party": "D",
+        "called": true,
+        "winner_vote_pct": null,
+        "source": "https://en.wikipedia.org/wiki/2026_United_States_Senate_election_in_New_Mexico"
+      },
+      {
+        "state": "North Carolina",
+        "special": false,
+        "winner": "Roy Cooper",
+        "party": "D",
+        "called": true,
+        "winner_vote_pct": null,
+        "source": "https://en.wikipedia.org/wiki/2026_United_States_Senate_election_in_North_Carolina"
+      },
+      {
+        "state": "Oklahoma",
+        "special": false,
+        "winner": "Kevin Hern",
+        "party": "R",
+        "called": true,
+        "winner_vote_pct": null,
+        "source": "https://en.wikipedia.org/wiki/2026_United_States_Senate_election_in_Oklahoma"
+      },
+      {
+        "state": "Oregon",
+        "special": false,
+        "winner": "Jeff Merkley",
+        "party": "D",
+        "called": true,
+        "winner_vote_pct": null,
+        "source": "https://en.wikipedia.org/wiki/2026_United_States_Senate_election_in_Oregon"
+      },
+      {
+        "state": "Rhode Island",
+        "special": false,
+        "winner": "Jack Reed",
+        "party": "D",
+        "called": true,
+        "winner_vote_pct": null,
+        "source": "https://en.wikipedia.org/wiki/2026_United_States_Senate_election_in_Rhode_Island"
+      },
+      {
+        "state": "South Carolina",
+        "special": false,
+        "winner": "Annie Andrews",
+        "party": "D",
+        "called": true,
+        "winner_vote_pct": null,
+        "source": "https://en.wikipedia.org/wiki/2026_United_States_Senate_election_in_South_Carolina"
+      },
+      {
+        "state": "South Dakota",
+        "special": false,
+        "winner": "Mike Rounds",
+        "party": "R",
+        "called": true,
+        "winner_vote_pct": null,
+        "source": "https://en.wikipedia.org/wiki/2026_United_States_Senate_election_in_South_Dakota"
+      },
+      {
+        "state": "Tennessee",
+        "special": false,
+        "winner": "Bill Hagerty",
+        "party": "R",
+        "called": true,
+        "winner_vote_pct": null,
+        "source": "https://en.wikipedia.org/wiki/2026_United_States_Senate_election_in_Tennessee"
+      },
+      {
+        "state": "Texas",
+        "special": false,
+        "winner": "James Talarico",
+        "party": "D",
+        "called": true,
+        "winner_vote_pct": 55,
+        "source": "https://en.wikipedia.org/wiki/2026_United_States_Senate_election_in_Texas",
+        "vote_pct_source": "https://abcnews.com/Politics/live-updates/midterm-elections-live-updates/?entryId=137835668&id=137782085"
+      },
+      {
+        "state": "Virginia",
+        "special": false,
+        "winner": "Mark Warner",
+        "party": "D",
+        "called": true,
+        "winner_vote_pct": null,
+        "source": "https://en.wikipedia.org/wiki/2026_United_States_Senate_election_in_Virginia"
+      },
+      {
+        "state": "West Virginia",
+        "special": false,
+        "winner": "Shelley Moore Capito",
+        "party": "R",
+        "called": true,
+        "winner_vote_pct": null,
+        "source": "https://en.wikipedia.org/wiki/2026_United_States_Senate_election_in_West_Virginia"
+      },
+      {
+        "state": "Wyoming",
+        "special": false,
+        "winner": "Harriet Hageman",
+        "party": "R",
+        "called": true,
+        "winner_vote_pct": null,
+        "source": "https://en.wikipedia.org/wiki/2026_United_States_Senate_election_in_Wyoming"
+      }
+    ]
+  },
+  "house": {
+    "called": {
+      "D": 237,
+      "R": 139,
+      "total_called": 376,
+      "uncalled_count": 59,
+      "as_of": "2026-11-04 09:10 ET (Guardian page timestamp; page live-updates)",
+      "source": "https://www.theguardian.com/us-news/ng-interactive/2026/nov/04/midterm-elections-full-results-senate-house-governor-races"
+    },
+    "cross_check": {
+      "D_elected": 241,
+      "R_elected": 153,
+      "called": 394,
+      "as_of": "2026-11-04 14:06 ET",
+      "source": "https://www.poliwave.com/us/live/midterms-2026/house",
+      "note": "Poliwave uses its own calling rules, not AP; leaders in uncalled seats: D 22, R 19 (projected D 263, R 172 if leaders hold)."
+    },
+    "projected_balance": {
+      "control": "Democratic (projected by AP via NPR, ABC, NBC)",
+      "D_seats_already_called_exceed_218": true,
+      "final_numbers": "pending"
+    },
+    "uncalled_districts_partial": [
+      {
+        "district": "AZ-2",
+        "leader": "Jonathan Nez (D) vs Eli Crane* (R), 49.1-49.1"
+      },
+      {
+        "district": "AZ-5",
+        "leader": "Mark Lamb (R) +2.2"
+      },
+      {
+        "district": "AZ-6",
+        "leader": "JoAnna Mendoza (D) +8.0, 28% counted"
+      },
+      {
+        "district": "AZ-8",
+        "leader": "Abe Hamadeh* (R) +2.2"
+      },
+      {
+        "district": "AK-AL",
+        "leader": "Nick Begich* (R) 49.6%"
+      },
+      {
+        "district": "AR-2",
+        "leader": "French Hill* (R) +1.8"
+      },
+      {
+        "district": "CA-4",
+        "leader": "D vs D (top-two)"
+      },
+      {
+        "district": "CO-3",
+        "leader": "Jeff Hurd* (R) 48.6 vs Dwayne Romero (D) 48.2"
+      },
+      {
+        "district": "CO-4",
+        "leader": "Eileen Laubacher (D) 49.2 vs Lauren Boebert* (R) 47.7"
+      },
+      {
+        "district": "FL-7",
+        "leader": "too close to call (Ryan Elijah vs Bale Dalton)",
+        "source": "https://www.fox35orlando.com/news/florida-election-results-2026-who-won-governor-us-senate-races-did-amendment-3-pass"
+      },
+      {
+        "district": "FL-9",
+        "leader": "too close to call (Darren Soto* vs Dan Green)",
+        "source": "https://www.fox35orlando.com/news/florida-election-results-2026-who-won-governor-us-senate-races-did-amendment-3-pass"
+      },
+      {
+        "district": "FL-26",
+        "leader": "Nicole Locklin (D) 49.7 vs Mario Diaz-Balart* (R) 49.3"
+      },
+      {
+        "district": "FL-27",
+        "leader": "Maria Elvira Salazar* (R) 50.2 vs Eliott Rodriguez (D) 49.8"
+      },
+      {
+        "district": "LA-6",
+        "leader": "all-party primary; runoff Dec 12"
+      },
+      {
+        "district": "MN-1",
+        "leader": "Jake Johnson (D) 50.0 vs Brad Finstad* (R) 49.9"
+      },
+      {
+        "district": "NC-5",
+        "leader": "Chuck Hubbard (D) 48.7 vs Virginia Foxx* (R) 48.7"
+      },
+      {
+        "district": "TN-4",
+        "leader": "Victoria Broderick (D) 48.9 vs Scott DesJarlais* (R) 48.7"
+      }
+    ],
+    "uncalled_note": "Partial list of close/uncalled seats from Poliwave (source unless noted: https://www.poliwave.com/us/live/midterms-2026/house) at 2:06 PM ET. A complete AP list of all ~41-59 uncalled districts was not retrievable."
+  },
+  "governors": {
+    "summary_all_50": {
+      "D": 28,
+      "R": 20,
+      "uncalled": [
+        "Alaska",
+        "Kansas"
+      ],
+      "races_called": "34/36",
+      "source": "https://www.theguardian.com/us-news/ng-interactive/2026/nov/04/midterm-elections-full-results-senate-house-governor-races"
+    },
+    "races": [
+      {
+        "state": "Alaska",
+        "winner": null,
+        "party": null,
+        "called": false,
+        "source": "https://www.theguardian.com/us-news/ng-interactive/2026/nov/04/midterm-elections-full-results-senate-house-governor-races",
+        "note": "Not called. Jonathan Kreiss-Tomkins (D) 49.2%, Bernadette Wilson (R) 29.2%, Dave Bronson (R) 14.2%, Treg Taylor (R) 7.5%."
+      },
+      {
+        "state": "Kansas",
+        "winner": null,
+        "party": null,
+        "called": false,
+        "source": "https://exa.ai/library/election/contest/4znwrfsk4dl",
+        "note": "Not called by AP as of ~2:05 PM ET. Cindy Holscher (D) 50.3% leads Ty Masterson (R) 49.7% by ~5,578 votes, 98% counted."
+      },
+      {
+        "state": "Oregon",
+        "winner": "Tina Kotek",
+        "party": "D",
+        "called": true,
+        "source": "https://www.opb.org/article/2026/11/03/oregon-governors-race-election-results-kotek-drazan/",
+        "vote_pct": 51.7,
+        "note": "AP called early Wed Nov 4."
+      },
+      {
+        "state": "Alabama",
+        "winner": "Tommy Tuberville",
+        "party": "R",
+        "called": true,
+        "source": "https://en.wikipedia.org/wiki/2026_Alabama_gubernatorial_election"
+      },
+      {
+        "state": "Arizona",
+        "winner": "Katie Hobbs",
+        "party": "D",
+        "called": true,
+        "source": "https://en.wikipedia.org/wiki/2026_Arizona_gubernatorial_election"
+      },
+      {
+        "state": "Arkansas",
+        "winner": "Sarah Huckabee Sanders",
+        "party": "R",
+        "called": true,
+        "source": "https://en.wikipedia.org/wiki/2026_Arkansas_gubernatorial_election"
+      },
+      {
+        "state": "California",
+        "winner": "Xavier Becerra",
+        "party": "D",
+        "called": true,
+        "source": "https://en.wikipedia.org/wiki/2026_California_gubernatorial_election"
+      },
+      {
+        "state": "Colorado",
+        "winner": "Phil Weiser",
+        "party": "D",
+        "called": true,
+        "source": "https://en.wikipedia.org/wiki/2026_Colorado_gubernatorial_election"
+      },
+      {
+        "state": "Connecticut",
+        "winner": "Ned Lamont",
+        "party": "D",
+        "called": true,
+        "source": "https://en.wikipedia.org/wiki/2026_Connecticut_gubernatorial_election"
+      },
+      {
+        "state": "Florida",
+        "winner": "Byron Donalds",
+        "party": "R",
+        "called": true,
+        "source": "https://en.wikipedia.org/wiki/2026_Florida_gubernatorial_election"
+      },
+      {
+        "state": "Georgia",
+        "winner": "Keisha Lance Bottoms",
+        "party": "D",
+        "called": true,
+        "source": "https://en.wikipedia.org/wiki/2026_Georgia_gubernatorial_election"
+      },
+      {
+        "state": "Hawaii",
+        "winner": "Josh Green",
+        "party": "D",
+        "called": true,
+        "source": "https://en.wikipedia.org/wiki/2026_Hawaii_gubernatorial_election"
+      },
+      {
+        "state": "Idaho",
+        "winner": "Brad Little",
+        "party": "R",
+        "called": true,
+        "source": "https://en.wikipedia.org/wiki/2026_Idaho_gubernatorial_election"
+      },
+      {
+        "state": "Illinois",
+        "winner": "JB Pritzker",
+        "party": "D",
+        "called": true,
+        "source": "https://en.wikipedia.org/wiki/2026_Illinois_gubernatorial_election"
+      },
+      {
+        "state": "Iowa",
+        "winner": "Rob Sand",
+        "party": "D",
+        "called": true,
+        "source": "https://en.wikipedia.org/wiki/2026_Iowa_gubernatorial_election"
+      },
+      {
+        "state": "Maine",
+        "winner": "Hannah Pingree",
+        "party": "D",
+        "called": true,
+        "source": "https://en.wikipedia.org/wiki/2026_Maine_gubernatorial_election"
+      },
+      {
+        "state": "Maryland",
+        "winner": "Wes Moore",
+        "party": "D",
+        "called": true,
+        "source": "https://en.wikipedia.org/wiki/2026_Maryland_gubernatorial_election"
+      },
+      {
+        "state": "Massachusetts",
+        "winner": "Maura Healey",
+        "party": "D",
+        "called": true,
+        "source": "https://en.wikipedia.org/wiki/2026_Massachusetts_gubernatorial_election"
+      },
+      {
+        "state": "Michigan",
+        "winner": "Jocelyn Benson",
+        "party": "D",
+        "called": true,
+        "source": "https://en.wikipedia.org/wiki/2026_Michigan_gubernatorial_election"
+      },
+      {
+        "state": "Minnesota",
+        "winner": "Amy Klobuchar",
+        "party": "D",
+        "called": true,
+        "source": "https://en.wikipedia.org/wiki/2026_Minnesota_gubernatorial_election"
+      },
+      {
+        "state": "Nebraska",
+        "winner": "Jim Pillen",
+        "party": "R",
+        "called": true,
+        "source": "https://en.wikipedia.org/wiki/2026_Nebraska_gubernatorial_election"
+      },
+      {
+        "state": "Nevada",
+        "winner": "Aaron Ford",
+        "party": "D",
+        "called": true,
+        "source": "https://en.wikipedia.org/wiki/2026_Nevada_gubernatorial_election"
+      },
+      {
+        "state": "New Hampshire",
+        "winner": "Kelly Ayotte",
+        "party": "R",
+        "called": true,
+        "source": "https://en.wikipedia.org/wiki/2026_New_Hampshire_gubernatorial_election"
+      },
+      {
+        "state": "New Mexico",
+        "winner": "Deb Haaland",
+        "party": "D",
+        "called": true,
+        "source": "https://en.wikipedia.org/wiki/2026_New_Mexico_gubernatorial_election"
+      },
+      {
+        "state": "New York",
+        "winner": "Kathy Hochul",
+        "party": "D",
+        "called": true,
+        "source": "https://en.wikipedia.org/wiki/2026_New_York_gubernatorial_election"
+      },
+      {
+        "state": "Ohio",
+        "winner": "Amy Acton",
+        "party": "D",
+        "called": true,
+        "source": "https://en.wikipedia.org/wiki/2026_Ohio_gubernatorial_election"
+      },
+      {
+        "state": "Oklahoma",
+        "winner": "Mike Mazzei",
+        "party": "R",
+        "called": true,
+        "source": "https://en.wikipedia.org/wiki/2026_Oklahoma_gubernatorial_election"
+      },
+      {
+        "state": "Pennsylvania",
+        "winner": "Josh Shapiro",
+        "party": "D",
+        "called": true,
+        "source": "https://en.wikipedia.org/wiki/2026_Pennsylvania_gubernatorial_election"
+      },
+      {
+        "state": "Rhode Island",
+        "winner": "Helena Foulkes",
+        "party": "D",
+        "called": true,
+        "source": "https://en.wikipedia.org/wiki/2026_Rhode_Island_gubernatorial_election"
+      },
+      {
+        "state": "South Carolina",
+        "winner": "Alan Wilson",
+        "party": "R",
+        "called": true,
+        "source": "https://en.wikipedia.org/wiki/2026_South_Carolina_gubernatorial_election"
+      },
+      {
+        "state": "South Dakota",
+        "winner": "Larry Rhoden",
+        "party": "R",
+        "called": true,
+        "source": "https://en.wikipedia.org/wiki/2026_South_Dakota_gubernatorial_election"
+      },
+      {
+        "state": "Tennessee",
+        "winner": "Marsha Blackburn",
+        "party": "R",
+        "called": true,
+        "source": "https://en.wikipedia.org/wiki/2026_Tennessee_gubernatorial_election"
+      },
+      {
+        "state": "Texas",
+        "winner": "Gina Hinojosa",
+        "party": "D",
+        "called": true,
+        "source": "https://en.wikipedia.org/wiki/2026_Texas_gubernatorial_election"
+      },
+      {
+        "state": "Vermont",
+        "winner": "Phil Scott",
+        "party": "R",
+        "called": true,
+        "source": "https://en.wikipedia.org/wiki/2026_Vermont_gubernatorial_election"
+      },
+      {
+        "state": "Wisconsin",
+        "winner": "David Crowley",
+        "party": "D",
+        "called": true,
+        "source": "https://en.wikipedia.org/wiki/2026_Wisconsin_gubernatorial_election"
+      },
+      {
+        "state": "Wyoming",
+        "winner": "Eric Barlow",
+        "party": "R",
+        "called": true,
+        "source": "https://en.wikipedia.org/wiki/2026_Wyoming_gubernatorial_election"
+      }
+    ]
+  },
+  "florida": {
+    "governor": {
+      "winner": "Byron Donalds",
+      "party": "R",
+      "called": true,
+      "votes": {
+        "Byron Donalds (R)": [
+          4132275,
+          50.02
+        ],
+        "David Jolly (D)": [
+          4024554,
+          48.71
+        ]
+      },
+      "marion_county": {
+        "Donalds": 61.34,
+        "Jolly": 37.21
+      },
+      "source": "https://floridaelectionwatch.gov/TrackCounty/MRN",
+      "call_source": "https://www.fox35orlando.com/news/florida-election-results-2026-who-won-governor-us-senate-races-did-amendment-3-pass"
+    },
+    "us_senate_special": {
+      "winner": "Ashley Moody",
+      "party": "R",
+      "called": true,
+      "votes": {
+        "Ashley Moody (R)": [
+          4207947,
+          50.87
+        ],
+        "Angie Nixon (D)": [
+          3969186,
+          47.99
+        ],
+        "Neil J. Gillespie (NPA)": [
+          94534,
+          1.14
+        ]
+      },
+      "marion_county": {
+        "Moody": 62.34,
+        "Nixon": 36.5
+      },
+      "source": "https://floridaelectionwatch.gov/TrackCounty/MRN"
+    },
+    "us_house_marion_ocala": [
+      {
+        "district": "FL-3",
+        "winner_or_leader": "Kat Cammack (R, incumbent)",
+        "districtwide_pct": {
+          "Cammack": 55.15,
+          "Seth Harp (D)": 42.99,
+          "Mike Klein (NPA)": 1.87
+        },
+        "marion_share": {
+          "Cammack": 58.38
+        },
+        "called": null,
+        "note": "Clear lead (~12 pts); AP call not independently verified.",
+        "source": "https://floridaelectionwatch.gov/TrackCounty/MRN"
+      },
+      {
+        "district": "FL-6",
+        "winner_or_leader": "Randy Fine (R, incumbent)",
+        "districtwide_pct": {
+          "Fine": 58.95,
+          "Eric Yonce (D)": 39.93,
+          "Andrew Parrott (LPF)": 1.12
+        },
+        "marion_share": {
+          "Fine": 64.23
+        },
+        "called": null,
+        "note": "Clear lead (~19 pts); AP call not independently verified.",
+        "source": "https://floridaelectionwatch.gov/TrackCounty/MRN"
+      }
+    ],
+    "ballot_measures": [
+      {
+        "name": "Amendment 1 (Budget Stabilization Fund cap)",
+        "result": "Failed",
+        "yes_pct": 40.9,
+        "no_pct": 59.1,
+        "source": "https://www.wcjb.com/politics/election-results/"
+      },
+      {
+        "name": "Amendment 2 (ag equipment tangible property tax exemption)",
+        "result": "Failed (needs 60%)",
+        "yes_pct": 58.2,
+        "no_pct": 41.8,
+        "source": "https://www.wcjb.com/politics/election-results/"
+      },
+      {
+        "name": "Amendment 3 (homestead exemption increase)",
+        "result": "Passed",
+        "yes_pct": 62.0,
+        "no_pct": 38.0,
+        "marion_yes_pct": 69.06,
+        "source": "https://www.wcjb.com/politics/election-results/"
+      },
+      {
+        "name": "Marion County school district 1-mill renewal",
+        "result": "Passed",
+        "yes_pct": 67.7,
+        "source": "https://www.wcjb.com/politics/election-results/"
+      },
+      {
+        "name": "Marion County $140M parks/environment bond",
+        "result": "Passed",
+        "yes_pct": 74.7,
+        "source": "https://www.wcjb.com/politics/election-results/"
+      },
+      {
+        "name": "Dunnellon: eliminate chief of police position",
+        "result": "Passed",
+        "yes_pct": 58.1,
+        "source": "https://www.wcjb.com/politics/election-results/"
+      }
+    ],
+    "marion_turnout": {
+      "pct": 60.8,
+      "ballots": 164944,
+      "source": "https://www.ocala-news.com/2026/11/04/marion-county-sees-60-8-voter-turnout-as-locals-fill-school-board-seats-approve-property-tax-changes/"
+    }
+  }
+}

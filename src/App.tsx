@@ -4,6 +4,7 @@ import { AreaView } from "./components/AreaView.tsx"
 import { Nav, Sheet, Tabs } from "./components/Chrome.tsx"
 import { Home } from "./components/Home.tsx"
 import { LearnView } from "./components/LearnView.tsx"
+import { ResultsView } from "./components/ResultsView.tsx"
 import { parseHash } from "./lib/route.ts"
 import {
   applyTheme,
@@ -49,6 +50,7 @@ export default function App() {
       learn: "How government works · Speak Up",
       area: "Your area · Speak Up",
       map: "Results map · Speak Up",
+      results: "2026 results · Speak Up",
     }
     document.title = titles[route.name]
   }, [route.name])
@@ -90,6 +92,7 @@ export default function App() {
       <main id="main" className={route.name === "map" ? "main map-main" : "main"}>
         {route.name === "home" && <Home onCopy={copy} route={route} onSettings={() => setSettings(true)} />}
         {route.name === "learn" && <LearnView />}
+        {route.name === "results" && <ResultsView section={route.section} />}
         {route.name === "notfound" && (
           <div className="column">
             <h1 className="hero">Page not found</h1>
@@ -158,7 +161,7 @@ export default function App() {
         <p>A party choice only reorders suggested questions. It does not change facts, colors, or sources.</p>
         <p>Your place and party choice stay in this browser. There is no account, no ad, and no tracker.</p>
         <p>The results map uses MIT Election Lab county returns for president in 2024 and for Senate races in 2024. Governor and U.S. House county winners are not in that bundle, so those views stay blank.</p>
-        <p>Congress contacts come from the unitedstates/congress-legislators file fetched Nov 4, 2026. The 2027 chamber chart is a projection, not a certified result.</p>
+        <p>Congress contacts come from the unitedstates/congress-legislators file fetched Nov 4, 2026. The 2027 chamber chart and the 2026 results page use unofficial AP calls as reported by news outlets, updated Nov 4, 2:30 PM ET. Each race links its source.</p>
       </Sheet>
     </div>
   )
